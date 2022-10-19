@@ -36,19 +36,19 @@ public class EstadosUsuario implements Serializable {
     @NonNull
     private String nombre;
 
-    @OneToMany(mappedBy = "estadosUsuario")
+    @OneToMany(mappedBy = "estado")
     private List<Usuario> usuarios;
 
     public Usuario addUsuario(Usuario usuario) {
         getUsuarios().add(usuario);
-        usuario.setEstadosUsuario(this);
+        usuario.setEstado(this);
 
         return usuario;
     }
 
     public Usuario removeUsuario(Usuario usuario) {
         getUsuarios().remove(usuario);
-        usuario.setEstadosUsuario(null);
+        usuario.setEstado(null);
 
         return usuario;
     }

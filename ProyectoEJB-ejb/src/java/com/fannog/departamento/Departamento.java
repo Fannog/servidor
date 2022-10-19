@@ -33,17 +33,17 @@ public class Departamento implements Serializable {
     private String nombre;
 
     @OneToMany(mappedBy = "departamento")
-    private List<Localidad> localidads;
+    private List<Localidad> localidades;
 
     public Localidad addLocalidad(Localidad localidad) {
-        getLocalidads().add(localidad);
+        getLocalidades().add(localidad);
         localidad.setDepartamento(this);
 
         return localidad;
     }
 
     public Localidad removeLocalidad(Localidad localidad) {
-        getLocalidads().remove(localidad);
+        getLocalidades().remove(localidad);
         localidad.setDepartamento(null);
 
         return localidad;

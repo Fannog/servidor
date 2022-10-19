@@ -50,7 +50,7 @@ public class Evento implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
-    private EstadosEvento estadosEvento;
+    private EstadosEvento estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ITR", nullable = false)
@@ -59,12 +59,12 @@ public class Evento implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_MODALIDAD", nullable = false)
     @NonNull
-    private ModalidadesEvento modalidadesEvento;
+    private ModalidadesEvento modalidad;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO", nullable = false)
     @NonNull
-    private TiposEvento tiposEvento;
+    private TiposEvento tipo;
 
     @OneToMany(mappedBy = "evento")
     private List<Justificacion> justificacions;

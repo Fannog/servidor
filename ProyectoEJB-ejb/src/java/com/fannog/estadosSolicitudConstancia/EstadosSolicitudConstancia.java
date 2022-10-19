@@ -29,26 +29,26 @@ public class EstadosSolicitudConstancia implements Serializable {
     @Column(name = "ID_ESTADOS_SOLICITUD_CONSTANCIA", unique = true, nullable = false, precision = 38)
     private Long idEstadosSolicitudConstancia;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
     @Column(nullable = false, length = 25)
     @NonNull
     private String nombre;
 
-    @OneToMany(mappedBy = "estadosSolicitudConstancia")
-    private List<SolicitudConstancia> solicitudConstancias;
+    @OneToMany(mappedBy = "estado")
+    private List<SolicitudConstancia> solicitudes;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
     public SolicitudConstancia addSolicitud(SolicitudConstancia solicitud) {
-        getSolicitudConstancias().add(solicitud);
-        solicitud.setEstadosSolicitudConstancia(this);
+        getSolicitudes().add(solicitud);
+        solicitud.setEstado(this);
 
         return solicitud;
     }
 
     public SolicitudConstancia removeSolicitud(SolicitudConstancia solicitud) {
-        getSolicitudConstancias().remove(solicitud);
-        solicitud.setEstadosSolicitudConstancia(null);
+        getSolicitudes().remove(solicitud);
+        solicitud.setEstado(null);
 
         return solicitud;
     }

@@ -31,9 +31,6 @@ public class Itr implements Serializable {
     @Column(name = "ID_ITR", unique = true, nullable = false, precision = 38)
     private Long idItr;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
     @Column(nullable = false, length = 25)
     @NonNull
     private String nombre;
@@ -45,6 +42,9 @@ public class Itr implements Serializable {
     @JoinColumn(name = "ID_LOCALIDAD", nullable = false)
     @NonNull
     private Localidad localidad;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
     public Evento addEvento(Evento evento) {
         getEventos().add(evento);

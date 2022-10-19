@@ -3,7 +3,7 @@ package com.fannog.accionSolicitudJustificacion;
 import com.fannog.analista.Analista;
 import com.fannog.solicitudConstancia.SolicitudConstancia;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,12 +30,9 @@ public class AccionSolicitudConstancia implements Serializable {
     @NonNull
     private String detalle;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
-    @Column(name = "FEC_HORA", nullable = false)
-    @NonNull
-    private LocalDateTime fecHora;
+    @Column(name = "FEC_HORA", insertable = false, updatable = false, nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecHora;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ANALISTA", nullable = false)
@@ -45,6 +42,9 @@ public class AccionSolicitudConstancia implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLICITUD_CONSTANCIA", nullable = false)
     @NonNull
-    private SolicitudConstancia solicitudConstancia;
+    private SolicitudConstancia solicitud;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
 }

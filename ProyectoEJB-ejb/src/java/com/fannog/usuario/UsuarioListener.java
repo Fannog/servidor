@@ -13,7 +13,7 @@ public class UsuarioListener {
     
     @PrePersist
     @PreUpdate
-    public void preAdd(Usuario usuario) {
+    public void prePersistAndUpdateUser(Usuario usuario) {
         String email = usuario.getEmailInstitucional();
         String password = usuario.getPassword();
 

@@ -35,9 +35,6 @@ public class Constancia implements Serializable {
     @NonNull
     private byte[] archivo;
 
-    @Column(nullable = false, precision = 1)
-    private boolean eliminado;
-
     @Column(nullable = false)
     @NonNull
     private LocalDateTime fecha;
@@ -50,6 +47,9 @@ public class Constancia implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLICITUD_CONSTANCIA", nullable = false)
     @NonNull
-    private SolicitudConstancia solicitudConstancia;
+    private SolicitudConstancia solicitud;
+
+    @Column(nullable = false, precision = 1)
+    private boolean eliminado;
 
 }

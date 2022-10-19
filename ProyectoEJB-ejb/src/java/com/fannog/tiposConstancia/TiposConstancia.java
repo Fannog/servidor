@@ -29,9 +29,6 @@ public class TiposConstancia implements Serializable {
     @Column(name = "ID_TIPOS_CONSTANCIA", unique = true, nullable = false, precision = 38)
     private Long idTiposConstancia;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
     @Column(nullable = false, length = 25)
     @NonNull
     private String nombre;
@@ -41,19 +38,22 @@ public class TiposConstancia implements Serializable {
     @NonNull
     private byte[] plantilla;
 
-    @OneToMany(mappedBy = "tiposConstancia")
-    private List<SolicitudConstancia> solicitudConstancias;
+    @OneToMany(mappedBy = "tipo")
+    private List<SolicitudConstancia> solicitudes;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
     public SolicitudConstancia addSolicitud(SolicitudConstancia solicitud) {
-        getSolicitudConstancias().add(solicitud);
-        solicitud.setTiposConstancia(this);
+        getSolicitudes().add(solicitud);
+        solicitud.setTipo(this);
 
         return solicitud;
     }
 
     public SolicitudConstancia removeSolicitud(SolicitudConstancia solicitud) {
-        getSolicitudConstancias().remove(solicitud);
-        solicitud.setTiposConstancia(null);
+        getSolicitudes().remove(solicitud);
+        solicitud.setTipo(null);
 
         return solicitud;
     }

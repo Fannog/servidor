@@ -1,6 +1,8 @@
 package com.fannog.tutor;
 
+import com.fannog.estadosUsuario.EstadosUsuario;
 import com.fannog.evento.Evento;
+import com.fannog.localidad.Localidad;
 import com.fannog.usuario.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -12,27 +14,21 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Entity(name = "Tutor")
 @Table(name = "TUTOR")
+@NamedNativeQuery(name = "Tutor.findById", query = "SELECT * FROM TUTOR WHERE ID_TUTOR = ?1")
 @NamedQueries({
     @NamedQuery(name = "Tutor.findAll", query = "SELECT t FROM Tutor t"),
-    @NamedQuery(name = "Tutor.findById", query = "SELECT t FROM Tutor t WHERE t.idTutor = :idTutor"),
-    @NamedQuery(name = "Tutor.findByArea", query = "SELECT t FROM Tutor t WHERE t.area = :area")})
-public class Tutor implements Serializable {
+    @NamedQuery(name = "Tutor.findByArea", query = "SELECT t FROM Tutor t WHERE t.area = :area"),
+    @NamedQuery(name = "Tutor.findByRol", query = "SELECT t FROM Tutor t WHERE t.rol = :rol")})
+public class Tutor extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @SequenceGenerator(name = "TUTOR_IDTUTOR_GENERATOR", sequenceName = "SEQ_ID_TUTOR", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TUTOR_IDTUTOR_GENERATOR")
-    @Column(name = "ID_TUTOR", unique = true, nullable = false, precision = 38)
-    private Long idTutor;
 
     @Column(nullable = false, length = 50)
     @NonNull
     private String area;
-    
+
     @Column(nullable = false, length = 50)
     @NonNull
     private String rol;
@@ -49,10 +45,10 @@ public class Tutor implements Serializable {
     )
     private List<Evento> eventos;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @NonNull
-    private Usuario usuario;
+    public Tutor(String area, String rol, String apellidos, Long documento, String emailInstitucional, String emailPersonal, String nombres, Long telefono, String password, EstadosUsuario estado, Localidad localidad) {
+        super(apellidos, documento, emailInstitucional, emailPersonal, nombres, telefono, password, estado, localidad);
+        this.area = area;
+        this.rol = rol;
+    }
 
 }

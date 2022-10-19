@@ -38,23 +38,20 @@ public class SolicitudConstancia implements Serializable {
     @NonNull
     private String detalle;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
+    @OneToMany(mappedBy = "solicitud")
+    private List<AccionSolicitudConstancia> acciones;
 
-    @OneToMany(mappedBy = "solicitudConstancia")
-    private List<AccionSolicitudConstancia> accionSolicitudConstancias;
-
-    @OneToMany(mappedBy = "solicitudConstancia")
+    @OneToMany(mappedBy = "solicitud")
     @NonNull
-    private List<AdjuntosSolicitudConstancia> adjuntosSolicitudConstancias;
+    private List<AdjuntosSolicitudConstancia> adjuntos;
 
-    @OneToMany(mappedBy = "solicitudConstancia")
+    @OneToMany(mappedBy = "solicitud")
     private List<Constancia> constancias;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
-    private EstadosSolicitudConstancia estadosSolicitudConstancia;
+    private EstadosSolicitudConstancia estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTUDIANTE", nullable = false)
@@ -64,46 +61,49 @@ public class SolicitudConstancia implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_CONSTANCIA", nullable = false)
     @NonNull
-    private TiposConstancia tiposConstancia;
+    private TiposConstancia tipo;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
     public AccionSolicitudConstancia addAccion(AccionSolicitudConstancia accion) {
-        getAccionSolicitudConstancias().add(accion);
-        accion.setSolicitudConstancia(this);
+        getAcciones().add(accion);
+        accion.setSolicitud(this);
 
         return accion;
     }
 
     public AccionSolicitudConstancia removeAccion(AccionSolicitudConstancia accion) {
-        getAccionSolicitudConstancias().remove(accion);
-        accion.setSolicitudConstancia(null);
+        getAcciones().remove(accion);
+        accion.setSolicitud(null);
 
         return accion;
     }
 
     public AdjuntosSolicitudConstancia addAdjunto(AdjuntosSolicitudConstancia adjunto) {
-        getAdjuntosSolicitudConstancias().add(adjunto);
-        adjunto.setSolicitudConstancia(this);
+        getAdjuntos().add(adjunto);
+        adjunto.setSolicitud(this);
 
         return adjunto;
     }
 
     public AdjuntosSolicitudConstancia removeAdjunto(AdjuntosSolicitudConstancia adjunto) {
-        getAdjuntosSolicitudConstancias().remove(adjunto);
-        adjunto.setSolicitudConstancia(null);
+        getAdjuntos().remove(adjunto);
+        adjunto.setSolicitud(null);
 
         return adjunto;
     }
 
     public Constancia addConstancia(Constancia constancia) {
         getConstancias().add(constancia);
-        constancia.setSolicitudConstancia(this);
+        constancia.setSolicitud(this);
 
         return constancia;
     }
 
     public Constancia removeConstancia(Constancia constancia) {
         getConstancias().remove(constancia);
-        constancia.setSolicitudConstancia(null);
+        constancia.setSolicitud(null);
 
         return constancia;
     }

@@ -34,9 +34,6 @@ public class AdjuntosJustificacion implements Serializable {
     @NonNull
     private File archivo;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
     @Column(name = "NOMB_ARCHIVO", nullable = false, length = 100)
     @NonNull
     private String nombArchivo;
@@ -45,5 +42,8 @@ public class AdjuntosJustificacion implements Serializable {
     @JoinColumn(name = "ID_JUSTIFICACION", nullable = false)
     @NonNull
     private Justificacion justificacion;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
 }

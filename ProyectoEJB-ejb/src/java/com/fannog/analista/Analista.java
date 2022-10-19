@@ -3,70 +3,64 @@ package com.fannog.analista;
 import com.fannog.accionJustificacion.AccionJustificacion;
 import com.fannog.accionSolicitudJustificacion.AccionSolicitudConstancia;
 import com.fannog.constancia.Constancia;
+import com.fannog.estadosUsuario.EstadosUsuario;
+import com.fannog.localidad.Localidad;
 import com.fannog.usuario.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
-@Data
+@Data()
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Entity(name = "Analista")
 @Table(name = "ANALISTA")
+@NamedNativeQuery(name = "Analista.findById", query = "SELECT * FROM ANALISTA WHERE ID_ANALISTA = ?1")
 @NamedQueries({
-    @NamedQuery(name = "Analista.findAll", query = "SELECT a FROM Analista a"),
-    @NamedQuery(name = "Analista.findById", query = "SELECT a FROM Analista a WHERE a.idAnalista = :idAnalista")})
-public class Analista implements Serializable {
+    @NamedQuery(name = "Analista.findAll", query = "SELECT a FROM Analista a")})
+public class Analista extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @SequenceGenerator(name = "ANALISTA_IDANALISTA_GENERATOR", sequenceName = "SEQ_ID_ANALISTA", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ANALISTA_IDANALISTA_GENERATOR")
-    @Column(name = "ID_ANALISTA", unique = true, nullable = false, precision = 38)
-    private Long idAnalista;
+    @OneToMany(mappedBy = "analista")
+    private List<AccionJustificacion> accionesJustificacion;
 
     @OneToMany(mappedBy = "analista")
-    private List<AccionJustificacion> accionJustificacions;
-
-    @OneToMany(mappedBy = "analista")
-    private List<AccionSolicitudConstancia> accionSolicitudConstancias;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @NonNull
-    private Usuario usuario;
+    private List<AccionSolicitudConstancia> accionesSolicitud;
 
     @OneToMany(mappedBy = "analista")
     private List<Constancia> constancias;
 
+    public Analista(String apellidos, Long documento, String emailInstitucional, String emailPersonal, String nombres, Long telefono, String password, EstadosUsuario estado, Localidad localidad) {
+        super(apellidos, documento, emailInstitucional, emailPersonal, nombres, telefono, password, estado, localidad);
+    }
+
     public AccionJustificacion addAccionJustificacion(AccionJustificacion accionJustificacion) {
-        getAccionJustificacions().add(accionJustificacion);
+        getAccionesJustificacion().add(accionJustificacion);
         accionJustificacion.setAnalista(this);
 
         return accionJustificacion;
     }
 
     public AccionJustificacion removeAccionJustificacion(AccionJustificacion accionJustificacion) {
-        getAccionJustificacions().remove(accionJustificacion);
+        getAccionesJustificacion().remove(accionJustificacion);
         accionJustificacion.setAnalista(null);
 
         return accionJustificacion;
     }
 
     public AccionSolicitudConstancia addAccion(AccionSolicitudConstancia accion) {
-        getAccionSolicitudConstancias().add(accion);
+        getAccionesSolicitud().add(accion);
         accion.setAnalista(this);
 
         return accion;
     }
 
     public AccionSolicitudConstancia removeAccion(AccionSolicitudConstancia accion) {
-        getAccionSolicitudConstancias().remove(accion);
+        getAccionesSolicitud().remove(accion);
         accion.setAnalista(null);
 
         return accion;

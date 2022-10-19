@@ -29,26 +29,26 @@ public class ModalidadesEvento implements Serializable {
     @Column(name = "ID_MODALIDADES_EVENTO", unique = true, nullable = false, precision = 38)
     private Long idModalidadesEvento;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
-
     @Column(nullable = false, length = 25)
     @NonNull
     private String nombre;
 
-    @OneToMany(mappedBy = "modalidadesEvento")
+    @OneToMany(mappedBy = "modalidad")
     private List<Evento> eventos;
+
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 
     public Evento addEvento(Evento evento) {
         getEventos().add(evento);
-        evento.setModalidadesEvento(this);
+        evento.setModalidad(this);
 
         return evento;
     }
 
     public Evento removeEvento(Evento evento) {
         getEventos().remove(evento);
-        evento.setModalidadesEvento(null);
+        evento.setModalidad(null);
 
         return evento;
     }

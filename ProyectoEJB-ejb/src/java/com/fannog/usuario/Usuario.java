@@ -1,14 +1,11 @@
 package com.fannog.usuario;
 
-import com.fannog.analista.Analista;
 import com.fannog.estadosUsuario.EstadosUsuario;
-import com.fannog.estudiante.Estudiante;
 import com.fannog.localidad.Localidad;
-import com.fannog.tutor.Tutor;
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 import lombok.Data;
+
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity(name = "Usuario")
 @Table(name = "USUARIO")
+@Entity
 @EntityListeners(UsuarioListener.class)
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
@@ -30,7 +27,7 @@ import lombok.RequiredArgsConstructor;
     @NamedQuery(name = "Usuario.findByEmailInstitucional", query = "SELECT u FROM Usuario u WHERE u.emailInstitucional = :emailInstitucional"),
     @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
     @NamedQuery(name = "Usuario.findByEliminado", query = "SELECT u FROM Usuario u WHERE u.eliminado = :eliminado")})
-public class Usuario implements Serializable {
+public abstract class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,9 +47,6 @@ public class Usuario implements Serializable {
     @Column(nullable = false, precision = 9)
     @NonNull
     private Long documento;
-
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
 
     @Column(name = "EMAIL_INSTITUCIONAL", nullable = false, length = 100)
     @NonNull
@@ -74,65 +68,16 @@ public class Usuario implements Serializable {
     @NonNull
     private String password;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Analista> analistas;
-
-    @OneToMany(mappedBy = "usuario")
-    private List<Estudiante> estudiantes;
-
-    @OneToMany(mappedBy = "usuario")
-    private List<Tutor> tutors;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
-    private EstadosUsuario estadosUsuario;
+    private EstadosUsuario estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_LOCALIDAD", nullable = false)
     @NonNull
     private Localidad localidad;
 
-    public Analista addAnalista(Analista analista) {
-        getAnalistas().add(analista);
-        analista.setUsuario(this);
-
-        return analista;
-    }
-
-    public Analista removeAnalista(Analista analista) {
-        getAnalistas().remove(analista);
-        analista.setUsuario(null);
-
-        return analista;
-    }
-
-    public Estudiante addEstudiante(Estudiante estudiante) {
-        getEstudiantes().add(estudiante);
-        estudiante.setUsuario(this);
-
-        return estudiante;
-    }
-
-    public Estudiante removeEstudiante(Estudiante estudiante) {
-        getEstudiantes().remove(estudiante);
-        estudiante.setUsuario(null);
-
-        return estudiante;
-    }
-
-    public Tutor addTutor(Tutor tutor) {
-        getTutors().add(tutor);
-        tutor.setUsuario(this);
-
-        return tutor;
-    }
-
-    public Tutor removeTutor(Tutor tutor) {
-        getTutors().remove(tutor);
-        tutor.setUsuario(null);
-
-        return tutor;
-    }
-
+    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
+    private boolean eliminado;
 }

@@ -35,9 +35,6 @@ public class AdjuntosSolicitudConstancia implements Serializable {
     @NonNull
     private File archivo;
 
-    @Column(nullable = false, precision = 1)
-    private BigDecimal eliminado;
-
     @Column(name = "NOMB_ARCHIVO", nullable = false, length = 100)
     @NonNull
     private String nombArchivo;
@@ -45,6 +42,8 @@ public class AdjuntosSolicitudConstancia implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLICITUD_CONSTANCIA", nullable = false)
     @NonNull
-    private SolicitudConstancia solicitudConstancia;
+    private SolicitudConstancia solicitud;
 
+    @Column(nullable = false, precision = 1)
+    private BigDecimal eliminado;
 }
