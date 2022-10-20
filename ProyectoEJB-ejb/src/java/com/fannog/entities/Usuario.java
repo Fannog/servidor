@@ -1,7 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.EstadoUsuario;
-import com.fannog.entities.Localidad;
 import com.fannog.listeners.UsuarioListener;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -14,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "USUARIO")
+@Table(name = "USUARIOS")
 @Entity
 @EntityListeners(UsuarioListener.class)
 @NamedQueries({

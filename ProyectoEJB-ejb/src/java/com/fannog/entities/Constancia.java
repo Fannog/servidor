@@ -1,7 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.Analista;
-import com.fannog.entities.Solicitud;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
@@ -14,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "Constancia")
-@Table(name = "CONSTANCIA")
+@Table(name = "CONSTANCIAS")
 @NamedQueries({
     @NamedQuery(name = "Constancia.findAll", query = "SELECT c FROM Constancia c"),
     @NamedQuery(name = "Constancia.findByFecha", query = "SELECT c FROM Constancia c WHERE c.fecha = :fecha"),

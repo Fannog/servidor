@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "Justificacion")
-@Table(name = "JUSTIFICACION")
+@Table(name = "JUSTIFICACIONES")
 @NamedQueries({
     @NamedQuery(name = "Justificacion.findAll", query = "SELECT j FROM Justificacion j"),
     @NamedQuery(name = "Justificacion.findByDetalle", query = "SELECT j FROM Justificacion j WHERE j.detalle = :detalle"),

@@ -1,6 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.Solicitud;
 import java.io.File;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -14,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "AdjuntoSolicitud")
-@Table(name = "ADJUNTO_SOLICITUD")
+@Table(name = "ADJUNTOS_SOLICITUD")
 @NamedQueries({
     @NamedQuery(name = "AdjuntoSolicitud.findAll", query = "SELECT a FROM AdjuntoSolicitud a"),
     @NamedQuery(name = "AdjuntoSolicitud.findByNombArchivo", query = "SELECT a FROM AdjuntoSolicitud a WHERE a.nombArchivo = :nombArchivo"),

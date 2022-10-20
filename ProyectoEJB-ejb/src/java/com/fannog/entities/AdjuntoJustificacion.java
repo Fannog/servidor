@@ -1,6 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.Justificacion;
 import java.io.File;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "AdjuntoJustificacion")
-@Table(name = "ADJUNTO_JUSTIFICACION")
+@Table(name = "ADJUNTOS_JUSTIFICACION")
 @NamedQueries({
     @NamedQuery(name = "AdjuntoJustificacion.findAll", query = "SELECT a FROM AdjuntoJustificacion a"),
     @NamedQuery(name = "AdjuntoJustificacion.findByNombArchivo", query = "SELECT a FROM AdjuntoJustificacion a WHERE a.nombArchivo = :nombArchivo"),

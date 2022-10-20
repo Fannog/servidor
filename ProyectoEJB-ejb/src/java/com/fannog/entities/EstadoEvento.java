@@ -1,6 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.Evento;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "EstadoEvento")
-@Table(name = "ESTADO_EVENTO")
+@Table(name = "ESTADOS_EVENTO")
 @NamedQueries({
     @NamedQuery(name = "EstadoEvento.findAll", query = "SELECT e FROM EstadoEvento e"),
     @NamedQuery(name = "EstadoEvento.findByNombre", query = "SELECT e FROM EstadoEvento e WHERE e.nombre = :nombre"),

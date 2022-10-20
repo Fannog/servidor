@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "Itr")
-@Table(name = "ITR")
+@Table(name = "ITRs")
 @NamedQueries({
     @NamedQuery(name = "Itr.findAll", query = "SELECT i FROM Itr i"),
     @NamedQuery(name = "Itr.findById", query = "SELECT i FROM Itr i WHERE i.idItr = :idItr"),

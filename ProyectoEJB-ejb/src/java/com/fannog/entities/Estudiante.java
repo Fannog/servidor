@@ -1,9 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.EstadoUsuario;
-import com.fannog.entities.Localidad;
-import com.fannog.entities.Solicitud;
-import com.fannog.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.time.Year;
@@ -15,8 +11,8 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @Entity(name = "Estudiante")
-@Table(name = "ESTUDIANTE")
-@NamedNativeQuery(name = "Estudiante.findById", query = "SELECT * FROM ESTUDIANTE WHERE ID_ESTUDIANTE = ?1")
+@Table(name = "ESTUDIANTES")
+@NamedNativeQuery(name = "Estudiante.findById", query = "SELECT * FROM ESTUDIANTES WHERE ID_ESTUDIANTE = ?1")
 @NamedQueries({
     @NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e"),
     @NamedQuery(name = "Estudiante.findByGeneracion", query = "SELECT e FROM Estudiante e WHERE e.generacion = :generacion")})

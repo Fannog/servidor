@@ -1,9 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.EstadoUsuario;
-import com.fannog.entities.Evento;
-import com.fannog.entities.Localidad;
-import com.fannog.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -13,9 +9,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity(name = "Tutor")
-@Table(name = "TUTOR")
+@Table(name = "TUTORES")
 @NamedNativeQuery(name = "Tutor.findById", query = "SELECT * FROM TUTOR WHERE ID_TUTOR = ?1")
 @NamedQueries({
     @NamedQuery(name = "Tutor.findAll", query = "SELECT t FROM Tutor t"),

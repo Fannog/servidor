@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "ModalidadEvento")
-@Table(name = "MODALIDAD_EVENTO")
+@Table(name = "MODALIDADES_EVENTO")
 @NamedQueries({
     @NamedQuery(name = "ModalidadEvento.findAll", query = "SELECT m FROM ModalidadEvento m"),
     @NamedQuery(name = "ModalidadEvento.findByNombre", query = "SELECT m FROM ModalidadEvento m WHERE m.nombre = :nombre"),

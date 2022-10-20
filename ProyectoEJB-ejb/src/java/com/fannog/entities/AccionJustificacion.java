@@ -1,7 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.Analista;
-import com.fannog.entities.Justificacion;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -14,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "AccionJustificacion")
-@Table(name = "ACCION_JUSTIFICACION")
+@Table(name = "ACCIONES_JUSTIFICACION")
 @NamedQueries({
     @NamedQuery(name = "AccionJustificacion.findAll", query = "SELECT a FROM AccionJustificacion a"),
     @NamedQuery(name = "AccionJustificacion.findByFecHora", query = "SELECT a FROM AccionJustificacion a WHERE a.fecHora = :fecHora"),

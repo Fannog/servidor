@@ -1,11 +1,5 @@
 package com.fannog.entities;
 
-import com.fannog.entities.AccionJustificacion;
-import com.fannog.entities.AccionSolicitud;
-import com.fannog.entities.Constancia;
-import com.fannog.entities.EstadoUsuario;
-import com.fannog.entities.Localidad;
-import com.fannog.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -17,8 +11,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity(name = "Analista")
-@Table(name = "ANALISTA")
-@NamedNativeQuery(name = "Analista.findById", query = "SELECT * FROM ANALISTA WHERE ID_ANALISTA = ?1")
+@Table(name = "ANALISTAS")
+@NamedNativeQuery(name = "Analista.findById", query = "SELECT * FROM ANALISTAS WHERE ID_ANALISTA = ?1")
 @NamedQueries({
     @NamedQuery(name = "Analista.findAll", query = "SELECT a FROM Analista a")})
 public class Analista extends Usuario implements Serializable {

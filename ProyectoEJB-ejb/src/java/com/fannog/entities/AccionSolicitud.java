@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity(name = "AccionSolicitud")
-@Table(name = "AccionSolicitud")
+@Table(name = "ACCIONES_SOLICITUD")
 @NamedQuery(name = "AccionSolicitud.findAll", query = "SELECT a FROM AccionSolicitud a")
 public class AccionSolicitud implements Serializable {
 
