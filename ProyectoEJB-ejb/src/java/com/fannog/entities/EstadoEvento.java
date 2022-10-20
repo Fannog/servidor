@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "ESTADO_EVENTO")
 @NamedQueries({
     @NamedQuery(name = "EstadoEvento.findAll", query = "SELECT e FROM EstadoEvento e"),
-    @NamedQuery(name = "EstadoEvento.findByNombre", query = "SELECT e FROM EstNamedQueryadoEvento e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "EstadoEvento.findByNombre", query = "SELECT e FROM EstadoEvento e WHERE e.nombre = :nombre"),
     @NamedQuery(name = "EstadoEvento.findByEliminado", query = "SELECT e FROM EstadoEvento e WHERE e.eliminado = :eliminado")})
 public class EstadoEvento implements Serializable {
 
