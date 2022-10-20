@@ -7,6 +7,7 @@ import com.fannog.DAO.AccionJustificacionDAO;
 import com.fannog.entities.AccionJustificacion;
 import com.fannog.exceptions.ServicioException;
 import java.util.List;
+import javax.persistence.PersistenceException;
 
 @Stateless
 public class AccionJustificacionDAOImpl implements AccionJustificacionDAO {
@@ -15,30 +16,51 @@ public class AccionJustificacionDAOImpl implements AccionJustificacionDAO {
     private EntityManager em;
 
     @Override
-    public AccionJustificacion create(AccionJustificacion entity) throws ServicioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public AccionJustificacion create(AccionJustificacion accionJustificacion) throws ServicioException {
+        try {
+            em.persist(accionJustificacion);
+            em.flush();
+        } catch (PersistenceException e) {
+            throw new ServicioException("Ha ocurrido un error al intentar registrar la accion");
+        }
+
+        return accionJustificacion;
     }
 
     @Override
-    public AccionJustificacion edit(AccionJustificacion entity) throws ServicioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public AccionJustificacion edit(AccionJustificacion accionJustificacion) throws ServicioException {
+        try {
+            em.merge(accionJustificacion);
+            em.flush();
+        } catch (PersistenceException e) {
+            throw new ServicioException("Ha ocurrido un error al intentar actualizar la acción");
+        }
+
+        return accionJustificacion;
     }
 
     @Override
-    public void remove(AccionJustificacion entity) throws ServicioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void remove(AccionJustificacion accionJustificacion) throws ServicioException {
+        try {
+            em.remove(accionJustificacion);
+            em.flush();
+        } catch (PersistenceException e) {
+            throw new ServicioException("Ha ocurrido un error al intentar dar de baja la acción");
+        }
     }
 
     @Override
     public AccionJustificacion findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        AccionJustificacion accionJustificacion = em.find(AccionJustificacion.class, id);
+
+        return accionJustificacion;
     }
 
     @Override
     public List<AccionJustificacion> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        List<AccionJustificacion> accionJustificacion = em.createNamedQuery("AccionJustificacion.findAll").getResultList();
 
-  
+        return accionJustificacion;
+    }
 
 }
