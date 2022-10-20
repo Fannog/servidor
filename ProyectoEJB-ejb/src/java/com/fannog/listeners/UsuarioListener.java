@@ -1,7 +1,8 @@
-package com.fannog.usuario;
+package com.fannog.listeners;
 
 
-import com.fannog.encryptor.Encryptor;
+import com.fannog.entities.Usuario;
+import com.fannog.utils.Encryptor;
 import javax.inject.Inject;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
