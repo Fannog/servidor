@@ -1,4 +1,4 @@
-package com.fannog.encryptor;
+package com.fannog.utils;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
