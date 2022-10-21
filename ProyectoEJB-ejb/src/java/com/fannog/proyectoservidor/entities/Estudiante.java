@@ -14,7 +14,6 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "Estudiante")
 @Table(name = "ESTUDIANTES")
-@NamedNativeQuery(name = "Estudiante.findById", query = "SELECT * FROM ESTUDIANTES WHERE ID_ESTUDIANTE = ?1")
 @NamedQueries({
     @NamedQuery(name = "Estudiante.findAll", query = "SELECT e FROM Estudiante e"),
     @NamedQuery(name = "Estudiante.findByGeneracion", query = "SELECT e FROM Estudiante e WHERE e.generacion = :generacion")})

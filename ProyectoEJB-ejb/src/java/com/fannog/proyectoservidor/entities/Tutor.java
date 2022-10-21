@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "Tutor")
 @Table(name = "TUTORES")
-@NamedNativeQuery(name = "Tutor.findById", query = "SELECT * FROM TUTOR WHERE ID_TUTOR = ?1")
 @NamedQueries({
     @NamedQuery(name = "Tutor.findAll", query = "SELECT t FROM Tutor t"),
     @NamedQuery(name = "Tutor.findByArea", query = "SELECT t FROM Tutor t WHERE t.area = :area"),

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name = "Analista")
 @Table(name = "ANALISTAS")
-@NamedNativeQuery(name = "Analista.findById", query = "SELECT * FROM ANALISTAS WHERE ID_ANALISTA = ?1")
 @NamedQueries({
     @NamedQuery(name = "Analista.findAll", query = "SELECT a FROM Analista a")})
 public class Analista extends Usuario implements Serializable {

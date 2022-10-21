@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Table(name = "USUARIOS")
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners(UsuarioListener.class)
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
