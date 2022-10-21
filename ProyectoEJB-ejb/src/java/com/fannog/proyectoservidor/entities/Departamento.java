@@ -16,9 +16,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Entity(name = "Departamento")
 @Table(name = "DEPARTAMENTOS")
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "findAllWithLocalidades", attributeNodes = {
+        @NamedAttributeNode("localidades")
+    })})
 @NamedQueries({
     @NamedQuery(name = "Departamento.findAll", query = "SELECT d FROM Departamento d"),
-    @NamedQuery(name = "Departamento.findByNombre", query = "SELECT d FROM Departamento d WHERE d.nombre = :nombre")})
+    @NamedQuery(name = "Departamento.findByNombre", query = "SELECT d FROM Departamento d WHERE d.nombre = :nombre"),})
 public class Departamento implements Serializable {
 
     private static final long serialVersionUID = 1L;
