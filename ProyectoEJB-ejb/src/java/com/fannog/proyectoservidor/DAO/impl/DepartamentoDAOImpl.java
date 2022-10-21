@@ -74,4 +74,12 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
         return departamentos;
     }
 
+    @Override
+    public List<Departamento> findAllWithLocalidades() {
+        List<Departamento> departamentos = em.createNamedQuery("Departamento.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithLocalidades")).getResultList();
+
+        return departamentos;
+    }
+
 }
