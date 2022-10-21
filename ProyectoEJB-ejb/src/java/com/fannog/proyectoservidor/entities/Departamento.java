@@ -3,6 +3,9 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,12 +24,15 @@ public class Departamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "DEPARTAMENTO_IDDEPARTAMENTO_GENERATOR", sequenceName = "SEQ_ID_DEPARTAMENTO", allocationSize = 1)
+    @SequenceGenerator(name = "DEPARTAMENTO_IDDEPARTAMENTO_GENERATOR", sequenceName = "SEQ_ID_DEPARTAMENTO", allocationSize = 1, initialValue = 19)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DEPARTAMENTO_IDDEPARTAMENTO_GENERATOR")
     @Column(name = "ID_DEPARTAMENTO", unique = true, nullable = false, precision = 38)
     private Long id;
 
-    @Column(nullable = false, length = 25)
+    @Column(length = 25, nullable = false)
+    @Size(min = 2, max = 25, message = "El nombre debe contener entre 2 a 25 caracteres")
+    @Pattern(regexp = "^[A-Za-z]*$", message = "El nombre no puede contener números")
+    @NotNull
     @NonNull
     private String nombre;
 
