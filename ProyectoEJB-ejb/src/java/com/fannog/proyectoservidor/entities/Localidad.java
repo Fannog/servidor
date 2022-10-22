@@ -5,10 +5,13 @@ import com.fannog.proyectoservidor.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -29,18 +32,24 @@ public class Localidad implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 50)
+    @Size(max = 50, min = 2, message = "El campo nombre debe contener entre 2 a 50 caracteres")
+    @NotNull(message = "El campo nombre no puede estar vacío")
     @NonNull
     private String nombre;
 
     @OneToMany(mappedBy = "localidad")
+    @ToString.Exclude
     private List<Itr> itrs;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_DEPARTAMENTO", nullable = false)
+    @NotNull(message = "Debes seleccionar un departamento")
     @NonNull
+    @ToString.Exclude
     private Departamento departamento;
 
     @OneToMany(mappedBy = "localidad")
+    @ToString.Exclude
     private List<Usuario> usuarios;
 
     public Itr addItr(Itr itr) {

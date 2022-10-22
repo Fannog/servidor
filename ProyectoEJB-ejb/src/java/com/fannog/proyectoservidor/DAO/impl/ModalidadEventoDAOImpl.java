@@ -7,8 +7,10 @@ import javax.persistence.PersistenceContext;
 import com.fannog.proyectoservidor.DAO.ModalidadEventoDAO;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class ModalidadEventoDAOImpl implements ModalidadEventoDAO {
@@ -32,6 +34,13 @@ public class ModalidadEventoDAOImpl implements ModalidadEventoDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear la modalidad de evento");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return modalidadEvento;
@@ -42,8 +51,15 @@ public class ModalidadEventoDAOImpl implements ModalidadEventoDAO {
         try {
             em.merge(modalidadEvento);
             em.flush();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar la modalidad de evento");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
         
         return modalidadEvento;
@@ -54,7 +70,7 @@ public class ModalidadEventoDAOImpl implements ModalidadEventoDAO {
         try {
             em.merge(modalidadEvento);
             em.flush();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar dar de baja la modalidad de evento");
         }
     }

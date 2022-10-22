@@ -1,8 +1,9 @@
 package com.fannog.proyectoservidor.entities;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -29,20 +30,23 @@ public class Constancia implements Serializable {
 
     @Lob
     @Column(nullable = false)
+    @NotNull(message = "Debes adjuntar un archivo para emitir la constancia")
     @NonNull
     private byte[] archivo;
 
     @Column(nullable = false)
-    @NonNull
-    private LocalDateTime fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ANALISTA", nullable = false)
+    @NotNull(message = "La emisión de constancia debe tener un analista asociado")
     @NonNull
     private Analista analista;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLICITUD_CONSTANCIA", nullable = false)
+    @NotNull(message = "La emisión de constancia debe tener una solicitud asociada")
     @NonNull
     private Solicitud solicitud;
 

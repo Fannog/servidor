@@ -7,8 +7,10 @@ import com.fannog.proyectoservidor.DAO.EstadoEventoDAO;
 import com.fannog.proyectoservidor.entities.EstadoEvento;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class EstadoEventoDAOImpl implements EstadoEventoDAO {
@@ -32,6 +34,13 @@ public class EstadoEventoDAOImpl implements EstadoEventoDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el estado de evento");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return estadoEvento;
@@ -44,6 +53,13 @@ public class EstadoEventoDAOImpl implements EstadoEventoDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el estado de evento");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return estadoEvento;

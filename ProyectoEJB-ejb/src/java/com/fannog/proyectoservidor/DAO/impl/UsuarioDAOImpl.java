@@ -8,9 +8,11 @@ import com.fannog.proyectoservidor.entities.Usuario;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import com.fannog.proyectoservidor.utils.Encryptor;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class UsuarioDAOImpl implements UsuarioDAO {
@@ -37,6 +39,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el usuario");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return usuario;
@@ -49,6 +58,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el usuario");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return usuario;
@@ -61,7 +77,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar dar de baja el usuario");
-        }
+        } 
     }
 
     @Override

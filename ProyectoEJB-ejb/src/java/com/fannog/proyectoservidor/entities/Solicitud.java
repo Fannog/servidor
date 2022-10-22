@@ -3,6 +3,9 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,7 +30,8 @@ public class Solicitud implements Serializable {
     @Column(name = "ID_SOLICITUD", unique = true, nullable = false, precision = 38)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 1000)
+    @Max(value = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
 
@@ -35,6 +39,7 @@ public class Solicitud implements Serializable {
     private List<AccionSolicitud> acciones;
 
     @OneToMany(mappedBy = "solicitud")
+    @NotEmpty(message = "Debes adjuntar al menos 1 archivo")
     @NonNull
     private List<AdjuntoSolicitud> adjuntos;
 
@@ -53,6 +58,7 @@ public class Solicitud implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_CONSTANCIA", nullable = false)
+    @NotNull(message = "Debes seleccionar un tipo de constancia")
     @NonNull
     private TipoConstancia tipo;
 

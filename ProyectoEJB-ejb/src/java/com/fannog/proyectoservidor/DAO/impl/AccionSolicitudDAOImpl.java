@@ -7,7 +7,9 @@ import com.fannog.proyectoservidor.DAO.AccionSolicitudDAO;
 import com.fannog.proyectoservidor.entities.AccionSolicitud;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class AccionSolicitudDAOImpl implements AccionSolicitudDAO {
@@ -22,6 +24,13 @@ public class AccionSolicitudDAOImpl implements AccionSolicitudDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar registrar la accion");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return accionSolicitud;
@@ -34,6 +43,13 @@ public class AccionSolicitudDAOImpl implements AccionSolicitudDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar la acción");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return accionSolicitud;

@@ -7,7 +7,9 @@ import com.fannog.proyectoservidor.DAO.AnalistaDAO;
 import com.fannog.proyectoservidor.entities.Analista;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class AnalistaDAOImpl implements AnalistaDAO {
@@ -22,6 +24,13 @@ public class AnalistaDAOImpl implements AnalistaDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el analista");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return analista;
@@ -34,6 +43,13 @@ public class AnalistaDAOImpl implements AnalistaDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el analista");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return analista;

@@ -7,7 +7,9 @@ import javax.persistence.PersistenceContext;
 import com.fannog.proyectoservidor.DAO.LocalidadDAO;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class LocalidadDAOImpl implements LocalidadDAO {
@@ -22,6 +24,13 @@ public class LocalidadDAOImpl implements LocalidadDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear la localidad");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
         
         return localidad;
@@ -34,6 +43,13 @@ public class LocalidadDAOImpl implements LocalidadDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar la localidad");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
         
         return localidad;

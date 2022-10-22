@@ -7,8 +7,10 @@ import javax.persistence.PersistenceContext;
 import com.fannog.proyectoservidor.DAO.TipoConstanciaDAO;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
@@ -32,6 +34,13 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el tipo de constancia");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return tipoConstancia;
@@ -44,6 +53,13 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el tipo de constancia");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return tipoConstancia;

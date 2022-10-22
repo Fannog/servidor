@@ -7,8 +7,10 @@ import com.fannog.proyectoservidor.DAO.DepartamentoDAO;
 import com.fannog.proyectoservidor.entities.Departamento;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class DepartamentoDAOImpl implements DepartamentoDAO {
@@ -25,6 +27,13 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
                 throw new ServicioException("Ya existe un departamento con este nombre");
             }
         } catch (NoResultException e) {
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         try {
@@ -32,6 +41,13 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el departamento");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return departamento;

@@ -5,6 +5,8 @@ import com.fannog.proyectoservidor.entities.Solicitud;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,6 +29,7 @@ public class AccionSolicitud implements Serializable {
     private Long id;
 
     @Column(length = 1000)
+    @Max(value = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
 
@@ -36,11 +39,13 @@ public class AccionSolicitud implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ANALISTA", nullable = false)
+    @NotNull(message = "La acción debe tener un analista")
     @NonNull
     private Analista analista;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_SOLICITUD", nullable = false)
+    @NotNull(message = "La acción debe tener un analista")
     @NonNull
     private Solicitud solicitud;
 

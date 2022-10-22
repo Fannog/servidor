@@ -2,12 +2,12 @@ package com.fannog.proyectoservidor.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.time.Year;
 import java.util.List;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
@@ -22,26 +22,26 @@ public class Estudiante extends Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, precision = 4)
-    @NonNull
-    private Year generacion;
+    @Positive(message = "El campo generacion debe contener valores positivos")
+    private Integer generacion;
 
     @OneToMany(mappedBy = "estudiante")
-    private List<Solicitud> solicitudConstancias;
+    private List<Solicitud> solicitudes;
 
-    public Estudiante(Year generacion, String apellidos, Long documento, String emailInstitucional, String emailPersonal, String nombres, Long telefono, String password, EstadoUsuario estado, Localidad localidad) {
-        super(apellidos, documento, emailInstitucional, emailPersonal, nombres, telefono, password, estado, localidad);
+    public Estudiante(int generacion, String apellidos, Long documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad) {
+        super(apellidos, documento, email, nombres, telefono, password, estado, localidad);
         this.generacion = generacion;
     }
 
     public Solicitud addSolicitud(Solicitud solicitud) {
-        getSolicitudConstancias().add(solicitud);
+        getSolicitudes().add(solicitud);
         solicitud.setEstudiante(this);
 
         return solicitud;
     }
 
     public Solicitud removeSolicitud(Solicitud solicitud) {
-        getSolicitudConstancias().remove(solicitud);
+        getSolicitudes().remove(solicitud);
         solicitud.setEstudiante(null);
 
         return solicitud;

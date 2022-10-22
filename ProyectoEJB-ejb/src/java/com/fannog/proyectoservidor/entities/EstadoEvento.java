@@ -3,6 +3,8 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -28,6 +30,8 @@ public class EstadoEvento implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 25)
+    @Size(max = 25, min = 2, message = "El campo nombre debe contener entre 2 a 25 caracteres")
+    @NotNull(message = "El campo nombre no puede estar vacío")
     @NonNull
     private String nombre;
 

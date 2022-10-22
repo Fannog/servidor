@@ -27,8 +27,8 @@ public class Analista extends Usuario implements Serializable {
     @OneToMany(mappedBy = "analista")
     private List<Constancia> constancias;
 
-    public Analista(String apellidos, Long documento, String emailInstitucional, String emailPersonal, String nombres, Long telefono, String password, EstadoUsuario estado, Localidad localidad) {
-        super(apellidos, documento, emailInstitucional, emailPersonal, nombres, telefono, password, estado, localidad);
+    public Analista(String apellidos, Long documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad) {
+        super(apellidos, documento, email, nombres, telefono, password, estado, localidad);
     }
 
     public AccionJustificacion addAccionJustificacion(AccionJustificacion accionJustificacion) {

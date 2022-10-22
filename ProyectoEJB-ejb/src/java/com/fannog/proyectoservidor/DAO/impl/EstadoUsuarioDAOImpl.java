@@ -4,11 +4,13 @@ import com.fannog.proyectoservidor.DAO.EstadoUsuarioDAO;
 import com.fannog.proyectoservidor.entities.EstadoUsuario;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class EstadoUsuarioDAOImpl implements EstadoUsuarioDAO {
@@ -25,13 +27,20 @@ public class EstadoUsuarioDAOImpl implements EstadoUsuarioDAO {
                 throw new ServicioException("Ya existe un estado de usuario con este nombre");
             }
         } catch (NoResultException e) {
-        }
+        } 
 
         try {
             em.persist(estadoUsuario);
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar crear el estado de usuario");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return estadoUsuario;
@@ -44,6 +53,13 @@ public class EstadoUsuarioDAOImpl implements EstadoUsuarioDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el estado de usuario");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return estadoUsuario;

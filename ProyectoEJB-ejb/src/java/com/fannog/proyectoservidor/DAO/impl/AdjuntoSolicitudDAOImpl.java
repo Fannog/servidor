@@ -7,7 +7,9 @@ import com.fannog.proyectoservidor.DAO.AdjuntoSolicitudDAO;
 import com.fannog.proyectoservidor.entities.AdjuntoSolicitud;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 
 @Stateless
 public class AdjuntoSolicitudDAOImpl implements AdjuntoSolicitudDAO {
@@ -22,6 +24,13 @@ public class AdjuntoSolicitudDAOImpl implements AdjuntoSolicitudDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar adjuntar el archivo");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return adjuntoSolicitud;
@@ -34,6 +43,13 @@ public class AdjuntoSolicitudDAOImpl implements AdjuntoSolicitudDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar el archivo adjunto");
+        } catch (ConstraintViolationException e) {
+            String errorMessages = e.getConstraintViolations()
+                    .stream()
+                    .map(v -> v.getMessage().concat(",").replace(",", " "))
+                    .collect(Collectors.joining("\n"));
+
+            throw new ServicioException(errorMessages);
         }
 
         return adjuntoSolicitud;

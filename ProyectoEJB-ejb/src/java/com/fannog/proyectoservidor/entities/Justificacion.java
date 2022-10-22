@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 import java.util.List;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -34,6 +36,7 @@ public class Justificacion implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 1000)
+    @Max(value = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
 
@@ -41,6 +44,7 @@ public class Justificacion implements Serializable {
     private boolean eliminado;
 
     @Column(name = "FEC_HORA", nullable = false)
+    @NotNull(message = "Debes seleccionar una fecha")
     @NonNull
     private LocalDateTime fecHora;
 

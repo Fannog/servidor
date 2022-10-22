@@ -3,6 +3,8 @@ package com.fannog.proyectoservidor.entities;
 import java.io.File;
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -29,15 +31,18 @@ public class AdjuntoJustificacion implements Serializable {
 
     @Lob
     @Column(nullable = false)
-    @NonNull
+    @NotNull(message = "Debes adjuntar al menos un archivo")
+    @NonNull()
     private File archivo;
 
     @Column(name = "NOMB_ARCHIVO", nullable = false, length = 100)
+    @NotNull(message = "El nombre del archivo no puede estar vacío")
+    @Max(value = 100, message = "El nombre del archivo debe contener menos de 100 caracteres")
     @NonNull
     private String nombArchivo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_JUSTIFICACION", nullable = false)
+    @JoinColumn(name = "ID_JUSTIFICACION", nullable = true)
     @NonNull
     private Justificacion justificacion;
 
