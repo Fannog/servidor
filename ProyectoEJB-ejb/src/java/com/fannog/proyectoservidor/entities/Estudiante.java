@@ -3,7 +3,6 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Positive;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +27,7 @@ public class Estudiante extends Usuario implements Serializable {
     @OneToMany(mappedBy = "estudiante")
     private List<Solicitud> solicitudes;
 
-    public Estudiante(int generacion, String apellidos, Long documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad) {
+    public Estudiante(int generacion, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad) {
         super(apellidos, documento, email, nombres, telefono, password, estado, localidad);
         this.generacion = generacion;
     }

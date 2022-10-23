@@ -3,6 +3,7 @@ package com.fannog.proyectoservidor.entities;
 import com.fannog.proyectoservidor.listeners.UsuarioListener;
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
@@ -50,9 +51,10 @@ public abstract class Usuario implements Serializable {
     private String nombreUsuario;
 
     @Column(nullable = false, precision = 9)
+    @NotBlank(message = "El campo documento no puede estar vacío")
     @NotNull(message = "El campo documento no puede estar vacío")
     @NonNull
-    private Long documento;
+    private String documento;
 
     @Column(name = "EMAIL", nullable = false, length = 100)
     @NonNull
