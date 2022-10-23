@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
+import static jdk.internal.util.StaticProperty.userName;
 
 @Stateless
 public class UsuarioDAOImpl implements UsuarioDAO {
@@ -117,7 +118,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public Usuario findByNombreUsuario(String nombreUsuario) throws ServicioException {
-        Usuario usuario = (Usuario) em.createNamedQuery("Usuario.findByNombreUsuario");
+        Usuario usuario = (Usuario) em.createNamedQuery("Usuario.findByNombreUsuario").setParameter("nombreUsuario", nombreUsuario).getSingleResult();
         return usuario;
     }
 

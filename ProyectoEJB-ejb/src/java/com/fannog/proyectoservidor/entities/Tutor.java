@@ -44,8 +44,8 @@ public class Tutor extends Usuario implements Serializable {
     )
     private List<Evento> eventos;
 
-    public Tutor(String area, String rol, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad) {
-        super(apellidos, documento, email, nombres, telefono, password, estado, localidad);
+    public Tutor(String area, String rol, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Long rolUsuario) {
+        super(apellidos, documento, email, nombres, telefono, password, estado, localidad, rolUsuario);
         this.area = area;
         this.rol = rol;
     }

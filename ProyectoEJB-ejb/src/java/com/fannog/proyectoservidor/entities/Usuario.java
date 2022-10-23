@@ -90,7 +90,7 @@ public abstract class Usuario implements Serializable {
     
     @Column(nullable = false)
     @NonNull
-    private Integer rolUsuario;
+    private Long rolUsuario;
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
     private boolean eliminado;
