@@ -40,8 +40,7 @@ public class TipoConstancia implements Serializable {
     @Lob
     @Column(nullable = false)
     @NotNull(message =  "Debes adjuntar una plantilla")
-    @NonNull
-    private File plantilla;
+    private byte[] plantilla;
 
     @OneToMany(mappedBy = "tipo")
     private List<Solicitud> solicitudes;
