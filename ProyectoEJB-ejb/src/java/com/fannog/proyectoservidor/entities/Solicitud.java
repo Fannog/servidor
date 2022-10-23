@@ -3,9 +3,9 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -19,7 +19,8 @@ import lombok.RequiredArgsConstructor;
 @NamedQueries({
     @NamedQuery(name = "Solicitud.findAll", query = "SELECT s FROM Solicitud s"),
     @NamedQuery(name = "Solicitud.findByDetalle", query = "SELECT s FROM Solicitud s WHERE s.detalle = :detalle"),
-    @NamedQuery(name = "Solicitud.findByEliminado", query = "SELECT s FROM Solicitud s WHERE s.eliminado = :eliminado")})
+    @NamedQuery(name = "Solicitud.findByEliminado", query = "SELECT s FROM Solicitud s WHERE s.eliminado = :eliminado"),
+})
 public class Solicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,32 +32,31 @@ public class Solicitud implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 1000)
-    @Max(value = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
+    @Size(max = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
 
     @OneToMany(mappedBy = "solicitud")
     private List<AccionSolicitud> acciones;
 
-    @OneToMany(mappedBy = "solicitud")
+    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL)
     @NotEmpty(message = "Debes adjuntar al menos 1 archivo")
-    @NonNull
     private List<AdjuntoSolicitud> adjuntos;
 
     @OneToMany(mappedBy = "solicitud")
     private List<Constancia> constancias;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
     private EstadoSolicitud estado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_ESTUDIANTE", nullable = false)
     @NonNull
     private Estudiante estudiante;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_TIPO_CONSTANCIA", nullable = false)
     @NotNull(message = "Debes seleccionar un tipo de constancia")
     @NonNull

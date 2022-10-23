@@ -14,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Entity(name = "EstadosSolicitud")
+@Entity(name = "EstadoSolicitud")
 @Table(name = "ESTADOS_SOLICITUD")
 @NamedQueries({
-    @NamedQuery(name = "EstadosSolicitud.findAll", query = "SELECT e FROM EstadosSolicitud e"),
-    @NamedQuery(name = "EstadosSolicitud.findByNombre", query = "SELECT e FROM EstadosSolicitud e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "EstadosSolicitud.findByEliminado", query = "SELECT e FROM EstadosSolicitud e WHERE e.eliminado = :eliminado")})
+    @NamedQuery(name = "EstadoSolicitud.findAll", query = "SELECT e FROM EstadoSolicitud e"),
+    @NamedQuery(name = "EstadoSolicitud.findByNombre", query = "SELECT e FROM EstadoSolicitud e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "EstadoSolicitud.findByEliminado", query = "SELECT e FROM EstadoSolicitud e WHERE e.eliminado = :eliminado")})
 public class EstadoSolicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;

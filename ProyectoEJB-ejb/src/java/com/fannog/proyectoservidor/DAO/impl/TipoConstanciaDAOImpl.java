@@ -6,10 +6,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.fannog.proyectoservidor.DAO.TipoConstanciaDAO;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
 @Stateless
@@ -19,7 +23,7 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
     private EntityManager em;
 
     @Override
-    public TipoConstancia create(TipoConstancia tipoConstancia) throws ServicioException {
+    public TipoConstancia create(TipoConstancia tipoConstancia, File file) throws ServicioException {
         try {
             TipoConstancia yaExiste = (TipoConstancia) em.createNamedQuery("TipoConstancia.findByNombre").setParameter("nombre", tipoConstancia.getNombre()).getSingleResult();
 
@@ -30,6 +34,9 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
         }
 
         try {
+            byte[] plantilla = Files.readAllBytes(file.toPath());
+            tipoConstancia.setPlantilla(plantilla);
+
             em.persist(tipoConstancia);
             em.flush();
         } catch (PersistenceException e) {
@@ -41,6 +48,8 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
                     .collect(Collectors.joining("\n"));
 
             throw new ServicioException(errorMessages);
+        } catch (IOException ex) {
+              throw new ServicioException("Ha ocurrido un error al intentar cargar el archivo");
         }
 
         return tipoConstancia;
@@ -80,7 +89,6 @@ public class TipoConstanciaDAOImpl implements TipoConstanciaDAO {
         TipoConstancia tipoConstancia = em.find(TipoConstancia.class, id);
 
         return tipoConstancia;
-
     }
 
     @Override
