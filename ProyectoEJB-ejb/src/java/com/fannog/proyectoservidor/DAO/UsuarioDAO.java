@@ -8,4 +8,6 @@ import javax.ejb.Remote;
 public interface UsuarioDAO extends DAO<Usuario> {
 
     Usuario login(String userName, String password) throws ServicioException;
+    
+    Usuario findByNombreUsuario(String nombreUsuario) throws ServicioException;
 }

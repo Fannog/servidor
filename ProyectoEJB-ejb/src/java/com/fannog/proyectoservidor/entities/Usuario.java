@@ -87,6 +87,10 @@ public abstract class Usuario implements Serializable {
     @NotNull(message = "Debes seleccionar una localidad")
     @NonNull
     private Localidad localidad;
+    
+    @Column(nullable = false)
+    @NonNull
+    private Integer rolUsuario;
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
     private boolean eliminado;

@@ -93,6 +93,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
         return usuarios;
     }
+    
 
     @Override
     public Usuario login(String userName, String password) throws ServicioException {
@@ -111,6 +112,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             throw new ServicioException("El usuario no existe");
         }
 
+        return usuario;
+    }
+
+    @Override
+    public Usuario findByNombreUsuario(String nombreUsuario) throws ServicioException {
+        Usuario usuario = (Usuario) em.createNamedQuery("Usuario.findByNombreUsuario");
         return usuario;
     }
 
