@@ -1,6 +1,7 @@
 package com.fannog.proyectoservidor.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
@@ -35,6 +36,10 @@ public class Solicitud implements Serializable {
     @Size(max = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
+    
+    @Column(name = "FEC_HORA")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
 
     @OneToMany(mappedBy = "solicitud")
     private List<AccionSolicitud> acciones;
