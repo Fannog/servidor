@@ -51,17 +51,17 @@ public class Solicitud implements Serializable {
     @OneToMany(mappedBy = "solicitud")
     private List<Constancia> constancias;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
     private EstadoSolicitud estado;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_ESTUDIANTE", nullable = false)
     @NonNull
     private Estudiante estudiante;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_CONSTANCIA", nullable = false)
     @NotNull(message = "Debes seleccionar un tipo de constancia")
     @NonNull
