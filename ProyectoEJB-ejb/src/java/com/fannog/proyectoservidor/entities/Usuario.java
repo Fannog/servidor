@@ -21,6 +21,14 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners(UsuarioListener.class)
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "findAllWithEstadosUsuario", attributeNodes = {
+        @NamedAttributeNode("estado")
+    }),
+     @NamedEntityGraph(name = "findAllWithLocalidad", attributeNodes = {
+        @NamedAttributeNode("localidad")
+    })
+    })
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByDocumento", query = "SELECT u FROM Usuario u WHERE u.documento = :documento"),

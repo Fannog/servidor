@@ -8,11 +8,11 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.ProyectoEJB-ejb.dist-ear}</file>
+                    <file>${reference.ProyectoCliente-1.jar}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.ProyectoCliente-1.jar}</file>
+                    <file>${reference.ProyectoEJB-ejb.dist}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -31,11 +31,11 @@
             </reference>
             <reference>
                 <foreign-project>ProyectoEJB-ejb</foreign-project>
-                <artifact-type>j2ee_ear_archive</artifact-type>
+                <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
-                <target>dist-ear</target>
-                <clean-target>clean-ear</clean-target>
-                <id>dist-ear</id>
+                <target>dist</target>
+                <clean-target>clean</clean-target>
+                <id>dist</id>
             </reference>
         </references>
     </configuration>

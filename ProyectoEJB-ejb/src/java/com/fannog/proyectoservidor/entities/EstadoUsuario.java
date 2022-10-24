@@ -38,7 +38,7 @@ public class EstadoUsuario implements Serializable {
     @NonNull
     private String nombre;
 
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     private List<Usuario> usuarios;
 
     public Usuario addUsuario(Usuario usuario) {
