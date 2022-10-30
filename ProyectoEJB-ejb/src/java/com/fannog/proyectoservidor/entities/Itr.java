@@ -1,7 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Evento;
-import com.fannog.proyectoservidor.entities.Localidad;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -43,12 +41,9 @@ public class Itr implements Serializable {
     @ToString.Exclude
     private List<Evento> eventos;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_LOCALIDAD", nullable = false)
-    @NotNull(message = "Debes seleccionar una localidad")
-    @NonNull
+    @OneToMany(mappedBy = "itr")
     @ToString.Exclude
-    private Localidad localidad;
+    private List<Usuario> usuarios;
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
     private boolean eliminado;

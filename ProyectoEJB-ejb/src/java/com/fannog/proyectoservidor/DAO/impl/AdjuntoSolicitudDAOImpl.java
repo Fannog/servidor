@@ -79,4 +79,11 @@ public class AdjuntoSolicitudDAOImpl implements AdjuntoSolicitudDAO {
         return adjuntosSolicitud;
     }
 
+    @Override
+    public List<AdjuntoSolicitud> findAllBySolicitud(Long idSolicitud) {
+        List<AdjuntoSolicitud> accionesSolicitud = em.createNamedQuery("AdjuntoSolicitud.findAllBySolicitud").setParameter("idSolicitud", idSolicitud).getResultList();
+
+        return accionesSolicitud;
+    }
+
 }

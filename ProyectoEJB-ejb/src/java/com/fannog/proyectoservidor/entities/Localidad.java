@@ -1,7 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Departamento;
-import com.fannog.proyectoservidor.entities.Usuario;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +16,10 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Entity(name = "Localidad")
 @Table(name = "LOCALIDADES")
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "findAllWithDepartamento", attributeNodes = {
+        @NamedAttributeNode("departamento"),})
+})
 @NamedQueries({
     @NamedQuery(name = "Localidad.findAll", query = "SELECT l FROM Localidad l"),
     @NamedQuery(name = "Localidad.findByNombre", query = "SELECT l FROM Localidad l WHERE l.nombre = :nombre")})
@@ -37,10 +39,6 @@ public class Localidad implements Serializable {
     @NonNull
     private String nombre;
 
-    @OneToMany(mappedBy = "localidad")
-    @ToString.Exclude
-    private List<Itr> itrs;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_DEPARTAMENTO", nullable = false)
     @NotNull(message = "Debes seleccionar un departamento")
@@ -51,20 +49,6 @@ public class Localidad implements Serializable {
     @OneToMany(mappedBy = "localidad")
     @ToString.Exclude
     private List<Usuario> usuarios;
-
-    public Itr addItr(Itr itr) {
-        getItrs().add(itr);
-        itr.setLocalidad(this);
-
-        return itr;
-    }
-
-    public Itr removeItr(Itr itr) {
-        getItrs().remove(itr);
-        itr.setLocalidad(null);
-
-        return itr;
-    }
 
     public Usuario addUsuario(Usuario usuario) {
         getUsuarios().add(usuario);

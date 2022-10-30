@@ -21,7 +21,7 @@ public class EstadoSolicitudDAOImpl implements EstadoSolicitudDAO {
     @Override
     public EstadoSolicitud create(EstadoSolicitud estadoSolicitud) throws ServicioException {
         try {
-            EstadoSolicitud yaExiste = (EstadoSolicitud) em.createNamedQuery("EstadoSolicitud.findByNombre").setParameter("nombre", estadoSolicitud.getNombre()).getSingleResult();
+            EstadoSolicitud yaExiste = findByNombre(estadoSolicitud.getNombre());
 
             if (yaExiste != null) {
                 throw new ServicioException("Ya existe un estado de solicitud con este nombre");
@@ -87,6 +87,13 @@ public class EstadoSolicitudDAOImpl implements EstadoSolicitudDAO {
         List<EstadoSolicitud> estadosSolicitud = em.createNamedQuery("EstadoSolicitud.findAll").getResultList();
 
         return estadosSolicitud;
+    }
+
+    @Override
+    public EstadoSolicitud findByNombre(String nombre) {
+        EstadoSolicitud estado = (EstadoSolicitud) em.createNamedQuery("EstadoSolicitud.findByNombre").setParameter("nombre", nombre).getSingleResult();
+
+        return estado;
     }
 
 }

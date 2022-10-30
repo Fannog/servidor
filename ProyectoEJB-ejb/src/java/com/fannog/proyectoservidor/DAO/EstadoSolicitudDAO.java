@@ -6,4 +6,5 @@ import javax.ejb.Remote;
 @Remote
 public interface EstadoSolicitudDAO extends DAO<EstadoSolicitud> {
 
+    EstadoSolicitud findByNombre(String nombre);
 }

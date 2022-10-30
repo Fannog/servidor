@@ -1,21 +1,20 @@
 package com.fannog.proyectoservidor.DAO.impl;
 
+import com.fannog.proyectoservidor.DAO.EstadoSolicitudDAO;
 import com.fannog.proyectoservidor.entities.Solicitud;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.fannog.proyectoservidor.DAO.SolicitudDAO;
 import com.fannog.proyectoservidor.entities.AdjuntoSolicitud;
+import com.fannog.proyectoservidor.entities.EstadoSolicitud;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
-import javax.ejb.TransactionAttribute;
-import javax.persistence.EntityTransaction;
+import javax.ejb.EJB;
 import javax.persistence.PersistenceException;
 
 import javax.validation.ConstraintViolationException;
@@ -26,10 +25,15 @@ public class SolicitudDAOImpl implements SolicitudDAO {
     @PersistenceContext(unitName = "ProyectoEJB-ejbPU")
     private EntityManager em;
 
+    @EJB
+    private EstadoSolicitudDAO estadoDAO;
+
     @Override
     public Solicitud create(Solicitud solicitud, List<File> files) throws ServicioException {
         try {
-            List<AdjuntoSolicitud> adjuntos = files.stream().map(file -> {
+            em.persist(solicitud);
+
+            files.forEach(file -> {
 
                 byte[] bytesFromFile = null;
 
@@ -38,15 +42,11 @@ public class SolicitudDAOImpl implements SolicitudDAO {
                 } catch (IOException ex) {
                 }
 
-                AdjuntoSolicitud adjunto = new AdjuntoSolicitud(bytesFromFile, file.getName());
+                AdjuntoSolicitud adjunto = new AdjuntoSolicitud(bytesFromFile, file.getName(), solicitud);
 
-                return adjunto;
-            }).collect(Collectors.toList());
+                em.persist(adjunto);
+            });
 
-            solicitud.setAdjuntos(adjuntos);
-            System.out.println(solicitud.getDetalle());
-
-            em.persist(solicitud);
             em.flush();
         } catch (ConstraintViolationException e) {
             String errorMessages = e.getConstraintViolations()
@@ -65,6 +65,20 @@ public class SolicitudDAOImpl implements SolicitudDAO {
     @Override
     public Solicitud edit(Solicitud solicitud) throws ServicioException {
         try {
+
+            boolean emitida = solicitud.getEmision() != null;
+            Long idEstado = solicitud.getEstado().getId();
+            
+            if (emitida && idEstado != 3L) {
+
+                EstadoSolicitud newEstado = estadoDAO.findById(3L);
+                
+                if (newEstado != null) {
+                    solicitud.setEstado(newEstado);
+                }
+
+            }
+
             em.merge(solicitud);
             em.flush();
         } catch (PersistenceException e) {
@@ -105,4 +119,11 @@ public class SolicitudDAOImpl implements SolicitudDAO {
         return solicitudes;
     }
 
+    @Override
+    public List<Solicitud> findAllWithRelations() {
+        List<Solicitud> solicitudes = em.createNamedQuery("Solicitud.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithRelations")).getResultList();
+
+        return solicitudes;
+    }
 }

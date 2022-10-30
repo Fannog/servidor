@@ -79,4 +79,12 @@ public class AnalistaDAOImpl implements AnalistaDAO {
         return analistas;
     }
 
+    @Override
+    public List<Analista> findAllWithAll() {
+        List<Analista> analistas = em.createNamedQuery("Analista.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithAll")).getResultList();
+
+        return analistas;
+    }
+
 }

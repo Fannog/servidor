@@ -1,6 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Evento;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -18,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "MODALIDADES_EVENTO")
 @NamedQueries({
     @NamedQuery(name = "ModalidadEvento.findAll", query = "SELECT m FROM ModalidadEvento m"),
-    @NamedQuery(name = "ModalidadEvento.findByNombre", query = "SELECT m FROM ModalidadEvento m WHERE m.nombre = :nombre"),
-    @NamedQuery(name = "ModalidadEvento.findByEliminado", query = "SELECT m FROM ModalidadEvento m WHERE m.eliminado = :eliminado")})
+    @NamedQuery(name = "ModalidadEvento.findByNombre", query = "SELECT m FROM ModalidadEvento m WHERE m.nombre = :nombre"),})
 public class ModalidadEvento implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +36,6 @@ public class ModalidadEvento implements Serializable {
 
     @OneToMany(mappedBy = "modalidad")
     private List<Evento> eventos;
-
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
 
     public Evento addEvento(Evento evento) {
         getEventos().add(evento);

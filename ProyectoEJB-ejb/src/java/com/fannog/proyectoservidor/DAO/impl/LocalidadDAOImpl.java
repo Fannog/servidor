@@ -32,7 +32,7 @@ public class LocalidadDAOImpl implements LocalidadDAO {
 
             throw new ServicioException(errorMessages);
         }
-        
+
         return localidad;
     }
 
@@ -51,13 +51,13 @@ public class LocalidadDAOImpl implements LocalidadDAO {
 
             throw new ServicioException(errorMessages);
         }
-        
+
         return localidad;
     }
 
     @Override
     public void remove(Localidad localidad) throws ServicioException {
-         try {
+        try {
             em.remove(localidad);
             em.flush();
         } catch (PersistenceException e) {
@@ -68,14 +68,23 @@ public class LocalidadDAOImpl implements LocalidadDAO {
     @Override
     public Localidad findById(Long id) {
         Localidad localidad = em.find(Localidad.class, id);
-        
+
         return localidad;
     }
 
     @Override
     public List<Localidad> findAll() {
         List<Localidad> localidades = em.createNamedQuery("Localidad.findAll").getResultList();
-        
+
+        return localidades;
+    }
+
+    @Override
+    public List<Localidad> findByNombre(String nombre) throws ServicioException {
+//        Localidad localidad = (Localidad) em.createNamedQuery("Localidad.findByNombre").setParameter("nombre", nombre).getSingleResult();
+//        return localidad;
+
+        List<Localidad> localidades = em.createNamedQuery("Localidad.findByNombre").setParameter("nombre", nombre).setHint("javax.persistence.loadgraph", em.getEntityGraph("findAllWithDepartamento")).getResultList();
         return localidades;
     }
 

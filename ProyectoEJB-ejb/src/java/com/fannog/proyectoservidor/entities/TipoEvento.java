@@ -1,6 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Evento;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;

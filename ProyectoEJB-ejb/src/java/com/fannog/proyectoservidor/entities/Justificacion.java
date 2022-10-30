@@ -1,9 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.AccionJustificacion;
-import com.fannog.proyectoservidor.entities.AdjuntoJustificacion;
-import com.fannog.proyectoservidor.entities.EstadoJustificacion;
-import com.fannog.proyectoservidor.entities.Evento;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.*;

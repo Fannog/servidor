@@ -1,10 +1,7 @@
 package com.fannog.proyectoservidor.entities;
 
-import java.io.File;
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
@@ -20,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 @NamedQueries({
     @NamedQuery(name = "AdjuntoSolicitud.findAll", query = "SELECT a FROM AdjuntoSolicitud a"),
     @NamedQuery(name = "AdjuntoSolicitud.findByNombArchivo", query = "SELECT a FROM AdjuntoSolicitud a WHERE a.nombArchivo = :nombArchivo"),
-    @NamedQuery(name = "AdjuntoSolicitud.findByEliminado", query = "SELECT a FROM AdjuntoSolicitud a WHERE a.eliminado = :eliminado")})
+    @NamedQuery(name = "AdjuntoSolicitud.findByEliminado", query = "SELECT a FROM AdjuntoSolicitud a WHERE a.eliminado = :eliminado"),
+    @NamedQuery(name = "AdjuntoSolicitud.findAllBySolicitud", query = "SELECT a FROM AdjuntoSolicitud a JOIN FETCH a.solicitud s WHERE s.id = :idSolicitud")
+})
 public class AdjuntoSolicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,10 +41,16 @@ public class AdjuntoSolicitud implements Serializable {
     @NonNull
     private String nombArchivo;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_SOLICITUD")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ID_SOLICITUD", nullable = false)
+    @NonNull
     private Solicitud solicitud;
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
     private boolean eliminado;
+
+    @Override
+    public String toString() {
+        return this.nombArchivo;
+    }
 }

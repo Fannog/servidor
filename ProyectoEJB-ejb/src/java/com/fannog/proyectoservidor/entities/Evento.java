@@ -1,10 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.EstadoEvento;
-import com.fannog.proyectoservidor.entities.Justificacion;
-import com.fannog.proyectoservidor.entities.ModalidadEvento;
-import com.fannog.proyectoservidor.entities.TipoEvento;
-import com.fannog.proyectoservidor.entities.Tutor;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,8 +21,7 @@ import lombok.RequiredArgsConstructor;
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
     @NamedQuery(name = "Evento.findByFecHoraInicio", query = "SELECT e FROM Evento e WHERE e.fecHoraInicio = :fecHoraInicio"),
     @NamedQuery(name = "Evento.findByNombre", query = "SELECT e FROM Evento e WHERE e.nombre = :nombre"),
-    @NamedQuery(name = "Evento.findByFecHoraFinal", query = "SELECT e FROM Evento e WHERE e.fecHoraFinal = :fecHoraFinal"),
-    @NamedQuery(name = "Evento.findByEliminado", query = "SELECT e FROM Evento e WHERE e.eliminado = :eliminado")})
+    @NamedQuery(name = "Evento.findByFecHoraFinal", query = "SELECT e FROM Evento e WHERE e.fecHoraFinal = :fecHoraFinal"),})
 public class Evento implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,9 +36,6 @@ public class Evento implements Serializable {
     @Size(max = 50, min = 2, message = "El campo nombre debe contener entre 2 a 50 caracteres")
     @NotNull(message = "El campo nombre no puede estar vacío")
     private String nombre;
-
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
 
     @Column(name = "FEC_HORA_FINAL", nullable = false)
     @Future(message = "La fecha hora final no puede ser menor a la actual")

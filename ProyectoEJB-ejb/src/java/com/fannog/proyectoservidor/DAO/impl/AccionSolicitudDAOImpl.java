@@ -79,4 +79,11 @@ public class AccionSolicitudDAOImpl implements AccionSolicitudDAO {
         return accionesSolicitud;
     }
 
+    @Override
+    public List<AccionSolicitud> findAllBySolicitud(Long idSolicitud) {
+        List<AccionSolicitud> accionesSolicitud = em.createNamedQuery("AccionSolicitud.findAllBySolicitud").setParameter("idSolicitud", idSolicitud).getResultList();
+
+        return accionesSolicitud;
+    }
+
 }

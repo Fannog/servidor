@@ -27,8 +27,8 @@ public class Estudiante extends Usuario implements Serializable {
     @OneToMany(mappedBy = "estudiante")
     private List<Solicitud> solicitudes;
 
-    public Estudiante(int generacion, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Long rolUsuario) {
-        super(apellidos, documento, email, nombres, telefono, password, estado, localidad, rolUsuario);
+    public Estudiante(Integer generacion, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Itr itr, Long rolUsuario) {
+        super(apellidos, documento, email, nombres, telefono, password, estado, localidad, itr, rolUsuario);
         this.generacion = generacion;
     }
 

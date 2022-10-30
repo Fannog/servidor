@@ -79,5 +79,18 @@ public class EstudianteDAOImpl implements EstudianteDAO {
         return estudiantes;
     }
 
+    @Override
+    public List<Estudiante> findAllWithAll() {
+        List<Estudiante> estudiantes = em.createNamedQuery("Estudiante.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithAll")).getResultList();
+
+        return estudiantes;
+    }
+
+    @Override
+    public Estudiante findByNombreUsuario(String nombreUsuario) throws ServicioException {
+        Estudiante estudiantes = (Estudiante) em.createNamedQuery("Usuario.findByNombreUsuario").setParameter("nombreUsuario", nombreUsuario).getSingleResult();
+        return estudiantes;
+    }
 
 }

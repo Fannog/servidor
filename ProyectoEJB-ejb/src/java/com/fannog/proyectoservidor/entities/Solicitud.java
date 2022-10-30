@@ -1,11 +1,10 @@
 package com.fannog.proyectoservidor.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.persistence.*;
 import java.util.List;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +16,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Entity(name = "Solicitud")
 @Table(name = "SOLICITUDES")
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "findAllWithRelations", attributeNodes = {
+        @NamedAttributeNode("estado"),
+        @NamedAttributeNode("estudiante"),
+        @NamedAttributeNode("tipo"),
+        @NamedAttributeNode("estado"),}),})
 @NamedQueries({
     @NamedQuery(name = "Solicitud.findAll", query = "SELECT s FROM Solicitud s"),
-    @NamedQuery(name = "Solicitud.findByDetalle", query = "SELECT s FROM Solicitud s WHERE s.detalle = :detalle"),
-    @NamedQuery(name = "Solicitud.findByEliminado", query = "SELECT s FROM Solicitud s WHERE s.eliminado = :eliminado"),
-})
+    @NamedQuery(name = "Solicitud.findByDetalle", query = "SELECT s FROM Solicitud s WHERE s.detalle = :detalle"),})
 public class Solicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,39 +39,34 @@ public class Solicitud implements Serializable {
     @Size(max = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
-    
-    @Column(name = "FEC_HORA")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+
+    @Column(name = "FEC_HORA", columnDefinition = "TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
+    private LocalDateTime fecha;
 
     @OneToMany(mappedBy = "solicitud")
     private List<AccionSolicitud> acciones;
 
     @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL)
-    @NotEmpty(message = "Debes adjuntar al menos 1 archivo")
-    private List<AdjuntoSolicitud> adjuntos;
-
-    @OneToMany(mappedBy = "solicitud")
-    private List<Constancia> constancias;
+    private List<AdjuntoSolicitud> adjuntos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTADO", nullable = false)
     @NonNull
     private EstadoSolicitud estado;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_ESTUDIANTE", nullable = false)
     @NonNull
     private Estudiante estudiante;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TIPO_CONSTANCIA", nullable = false)
-    @NotNull(message = "Debes seleccionar un tipo de constancia")
     @NonNull
     private TipoConstancia tipo;
 
-    @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
-    private boolean eliminado;
+    @OneToOne(mappedBy = "solicitud", optional = true, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn()
+    private Emision emision;
 
     public AccionSolicitud addAccion(AccionSolicitud accion) {
         getAcciones().add(accion);
@@ -96,20 +94,6 @@ public class Solicitud implements Serializable {
         adjunto.setSolicitud(null);
 
         return adjunto;
-    }
-
-    public Constancia addConstancia(Constancia constancia) {
-        getConstancias().add(constancia);
-        constancia.setSolicitud(this);
-
-        return constancia;
-    }
-
-    public Constancia removeConstancia(Constancia constancia) {
-        getConstancias().remove(constancia);
-        constancia.setSolicitud(null);
-
-        return constancia;
     }
 
 }

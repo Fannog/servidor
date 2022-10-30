@@ -3,13 +3,13 @@ package com.fannog.proyectoservidor.entities;
 import com.fannog.proyectoservidor.listeners.UsuarioListener;
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +25,13 @@ import lombok.RequiredArgsConstructor;
     @NamedEntityGraph(name = "findAllWithEstadosUsuario", attributeNodes = {
         @NamedAttributeNode("estado")
     }),
-     @NamedEntityGraph(name = "findAllWithLocalidad", attributeNodes = {
-        @NamedAttributeNode("localidad")
-    })
-    })
+    @NamedEntityGraph(name = "findAllWithLocalidad", attributeNodes = {
+        @NamedAttributeNode("localidad"),}),
+    @NamedEntityGraph(name = "findAllWithAll", attributeNodes = {
+        @NamedAttributeNode("localidad"),
+        @NamedAttributeNode("estado"),
+        @NamedAttributeNode("itr")})
+})
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByDocumento", query = "SELECT u FROM Usuario u WHERE u.documento = :documento"),
@@ -60,17 +63,17 @@ public abstract class Usuario implements Serializable {
 
     @Column(nullable = false, precision = 9)
     @NotBlank(message = "El campo documento no puede estar vacío")
-    @NotNull(message = "El campo documento no puede estar vacío")
     @NonNull
     private String documento;
 
-    @Column(name = "EMAIL", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
+    @Email(message = "Por favor ingreso un email valido")
     @NonNull
     private String email;
 
     @Column(nullable = false, length = 50)
     @Size(max = 50, min = 2, message = "El campo nombres debe contener entre 2 a 50 caracteres")
-    @NotNull(message = "El campo nombres no puede estar vacío")
+    @NotBlank(message = "El campo nombres no puede estar vacío")
     @Pattern(regexp = "^[a-zA-Z ]*$", message = "El campo nombres no puede contener números")
     @NonNull
     private String nombres;
@@ -81,7 +84,7 @@ public abstract class Usuario implements Serializable {
     private Integer telefono;
 
     @Column(columnDefinition = "CHAR(64)", nullable = false)
-    @NotNull(message = "El campo password no puede estar vacío")
+    @NotBlank(message = "El campo password no puede estar vacío")
     @NonNull
     private String password;
 
@@ -92,10 +95,14 @@ public abstract class Usuario implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_LOCALIDAD", nullable = false)
-    @NotNull(message = "Debes seleccionar una localidad")
     @NonNull
     private Localidad localidad;
-    
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ITR", nullable = false)
+    @NonNull
+    private Itr itr;
+
     @Column(nullable = false)
     @NonNull
     private Long rolUsuario;

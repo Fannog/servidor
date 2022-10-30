@@ -62,7 +62,7 @@ public class TutorDAOImpl implements TutorDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar eliminar el tutor");
-        } 
+        }
     }
 
     @Override
@@ -77,6 +77,20 @@ public class TutorDAOImpl implements TutorDAO {
         List<Tutor> tutores = em.createNamedQuery("Tutor.findAll").getResultList();
 
         return tutores;
+    }
+
+    @Override
+    public List<Tutor> findAllWithAll() {
+        List<Tutor> tutores = em.createNamedQuery("Tutor.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithAll")).getResultList();
+
+        return tutores;
+    }
+
+    @Override
+    public Tutor findByNombreUsuario(String nombreUsuario) throws ServicioException {
+        Tutor tutor = (Tutor) em.createNamedQuery("Usuario.findByNombreUsuario").setParameter("nombreUsuario", nombreUsuario).getSingleResult();
+        return tutor;
     }
 
 }

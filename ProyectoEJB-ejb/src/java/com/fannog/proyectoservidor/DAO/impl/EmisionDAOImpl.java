@@ -3,27 +3,28 @@ package com.fannog.proyectoservidor.DAO.impl;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import com.fannog.proyectoservidor.DAO.ConstanciaDAO;
-import com.fannog.proyectoservidor.entities.Constancia;
+import com.fannog.proyectoservidor.entities.Emision;
 import com.fannog.proyectoservidor.exceptions.ServicioException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
+import com.fannog.proyectoservidor.DAO.EmisionDAO;
 
 @Stateless
-public class ConstanciaDAOImpl implements ConstanciaDAO {
+public class EmisionDAOImpl implements EmisionDAO {
 
     @PersistenceContext(unitName = "ProyectoEJB-ejbPU")
     private EntityManager em;
 
     @Override
-    public Constancia create(Constancia constancia) throws ServicioException {
+    public Emision create(Emision emision) throws ServicioException {
         try {
-            em.persist(constancia);
+            em.persist(emision);
             em.flush();
         } catch (PersistenceException e) {
-            throw new ServicioException("Ha ocurrido un error al intentar crear la constancia");
+            e.printStackTrace();
+            throw new ServicioException("Ha ocurrido un error al intentar emitir la solicitud de constancia");
         } catch (ConstraintViolationException e) {
             String errorMessages = e.getConstraintViolations()
                     .stream()
@@ -33,13 +34,13 @@ public class ConstanciaDAOImpl implements ConstanciaDAO {
             throw new ServicioException(errorMessages);
         }
 
-        return constancia;
+        return emision;
     }
 
     @Override
-    public Constancia edit(Constancia constancia) throws ServicioException {
+    public Emision edit(Emision emision) throws ServicioException {
         try {
-            em.merge(constancia);
+            em.merge(emision);
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar actualizar la constancia");
@@ -52,13 +53,13 @@ public class ConstanciaDAOImpl implements ConstanciaDAO {
             throw new ServicioException(errorMessages);
         }
 
-        return constancia;
+        return emision;
     }
 
     @Override
-    public void remove(Constancia constancia) throws ServicioException {
+    public void remove(Emision emision) throws ServicioException {
         try {
-            em.remove(constancia);
+            em.remove(emision);
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar dar de baja la constancia");
@@ -66,17 +67,17 @@ public class ConstanciaDAOImpl implements ConstanciaDAO {
     }
 
     @Override
-    public Constancia findById(Long id) {
-        Constancia constancia = em.find(Constancia.class, id);
+    public Emision findById(Long id) {
+        Emision emision = em.find(Emision.class, id);
 
-        return constancia;
+        return emision;
     }
 
     @Override
-    public List<Constancia> findAll() {
-        List<Constancia> constancias = em.createNamedQuery("Constancia.findAll").getResultList();
+    public List<Emision> findAll() {
+        List<Emision> emisiones = em.createNamedQuery("Emision.findAll").getResultList();
 
-        return constancias;
+        return emisiones;
     }
 
 }

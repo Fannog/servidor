@@ -77,7 +77,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             em.flush();
         } catch (PersistenceException e) {
             throw new ServicioException("Ha ocurrido un error al intentar dar de baja el usuario");
-        } 
+        }
     }
 
     @Override
@@ -93,7 +93,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
         return usuarios;
     }
-    
 
     @Override
     public Usuario login(String userName, String password) throws ServicioException {
@@ -105,7 +104,17 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             boolean valid = encryptor.checkPassword(password, usuario.getPassword());
 
             if (!valid) {
-                throw new ServicioException("Contraseña incorrecta");
+                throw new ServicioException("La contraseña ingresada es incorrecta");
+            }
+
+            String estado = usuario.getEstado().getNombre();
+
+            if (estado.equalsIgnoreCase("sin activar")) {
+                throw new ServicioException("Usuario pendiente de verificación");
+            }
+
+            if (estado.equalsIgnoreCase("eliminado")) {
+                throw new ServicioException("Este Usuario fue eliminado");
             }
 
         } catch (NoResultException e) {
@@ -117,10 +126,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public Usuario findByNombreUsuario(String nombreUsuario) throws ServicioException {
-        Usuario usuario = (Usuario) em.createNamedQuery("Usuario.findByNombreUsuario").setParameter("nombreUsuario", nombreUsuario).getSingleResult();
+        Usuario usuario = (Usuario) em.createNamedQuery("Usuario.findByNombreUsuario").setParameter("nombreUsuario", nombreUsuario).setHint("javax.persistence.loadgraph", em.getEntityGraph("findAllWithAll")).getSingleResult();
+
         return usuario;
     }
-    
+
     @Override
     public List<Usuario> findAllWithLocalidades() {
         List<Usuario> usuarios = em.createNamedQuery("Usuario.findAll").setHint("javax.persistence.loadgraph",
@@ -133,9 +143,16 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     public List<Usuario> findAllWithEstadosUsuario() {
         List<Usuario> usuarios = em.createNamedQuery("Usuario.findAll").setHint("javax.persistence.loadgraph",
                 em.getEntityGraph("findAllWithEstadosUsuario")).getResultList();
-        
+
         return usuarios;
     }
 
+    @Override
+    public List<Usuario> findAllWithAll() {
+        List<Usuario> usuarios = em.createNamedQuery("Usuario.findAll").setHint("javax.persistence.loadgraph",
+                em.getEntityGraph("findAllWithAll")).getResultList();
+
+        return usuarios;
+    }
 
 }

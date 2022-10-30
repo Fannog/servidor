@@ -12,7 +12,7 @@
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.ProyectoEJB-ejb.dist}</file>
+                    <file>${reference.ProyectoEJB-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -31,11 +31,11 @@
             </reference>
             <reference>
                 <foreign-project>ProyectoEJB-ejb</foreign-project>
-                <artifact-type>jar</artifact-type>
+                <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
-                <target>dist</target>
-                <clean-target>clean</clean-target>
-                <id>dist</id>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
             </reference>
         </references>
     </configuration>

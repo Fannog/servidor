@@ -3,8 +3,8 @@ package com.fannog.proyectoservidor.entities;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -31,7 +31,7 @@ public class AccionJustificacion implements Serializable {
     private Long id;
 
     @Column(length = 1000)
-    @Max(value = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
+    @Size(max = 1000, message = "Superaste el limite de 1000 caracteres en el campo detalle")
     @NonNull
     private String detalle;
 

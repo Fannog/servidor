@@ -1,7 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Solicitud;
-import java.io.File;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -39,7 +37,7 @@ public class TipoConstancia implements Serializable {
 
     @Lob
     @Column(nullable = false)
-    @NotNull(message =  "Debes adjuntar una plantilla")
+    @NotNull(message = "Debes adjuntar una plantilla")
     private byte[] plantilla;
 
     @OneToMany(mappedBy = "tipo")

@@ -18,4 +18,6 @@ public interface SolicitudDAO {
     Solicitud findById(Long id);
 
     List<Solicitud> findAll();
+    
+    List<Solicitud> findAllWithRelations();
 }

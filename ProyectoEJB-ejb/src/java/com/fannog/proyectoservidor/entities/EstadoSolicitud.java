@@ -1,6 +1,5 @@
 package com.fannog.proyectoservidor.entities;
 
-import com.fannog.proyectoservidor.entities.Solicitud;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -18,14 +18,14 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "ESTADOS_SOLICITUD")
 @NamedQueries({
     @NamedQuery(name = "EstadoSolicitud.findAll", query = "SELECT e FROM EstadoSolicitud e"),
-    @NamedQuery(name = "EstadoSolicitud.findByNombre", query = "SELECT e FROM EstadoSolicitud e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "EstadoSolicitud.findByNombre", query = "SELECT e FROM EstadoSolicitud e WHERE UPPER(e.nombre) = UPPER(:nombre)"),
     @NamedQuery(name = "EstadoSolicitud.findByEliminado", query = "SELECT e FROM EstadoSolicitud e WHERE e.eliminado = :eliminado")})
 public class EstadoSolicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "ESTADOS_SOLICITUD_IDESTADOSOLICITUD_GENERATOR", sequenceName = "SEQ_ID_ESTADO_SOLICITUD", allocationSize = 1)
+    @SequenceGenerator(name = "ESTADOS_SOLICITUD_IDESTADOSOLICITUD_GENERATOR", sequenceName = "SEQ_ID_ESTADO_SOLICITUD", allocationSize = 3)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTADOS_SOLICITUD_IDESTADOSOLICITUD_GENERATOR")
     @Column(name = "ID_ESTADO_SOLICITUD", unique = true, nullable = false, precision = 38)
     private Long id;
@@ -37,6 +37,7 @@ public class EstadoSolicitud implements Serializable {
     private String nombre;
 
     @OneToMany(mappedBy = "estado")
+    @ToString.Exclude
     private List<Solicitud> solicitudes;
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")

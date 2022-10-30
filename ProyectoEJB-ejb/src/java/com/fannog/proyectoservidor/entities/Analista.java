@@ -24,11 +24,8 @@ public class Analista extends Usuario implements Serializable {
     @OneToMany(mappedBy = "analista")
     private List<AccionSolicitud> accionesSolicitud;
 
-    @OneToMany(mappedBy = "analista")
-    private List<Constancia> constancias;
-
-    public Analista(String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Long rolUsuario) {
-        super(apellidos, documento, email, nombres, telefono, password, estado, localidad, rolUsuario);
+    public Analista(String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Itr itr, Long rolUsuario) {
+        super(apellidos, documento, email, nombres, telefono, password, estado, localidad, itr, rolUsuario);
     }
 
     public AccionJustificacion addAccionJustificacion(AccionJustificacion accionJustificacion) {
@@ -57,20 +54,6 @@ public class Analista extends Usuario implements Serializable {
         accion.setAnalista(null);
 
         return accion;
-    }
-
-    public Constancia addConstancia(Constancia constancia) {
-        getConstancias().add(constancia);
-        constancia.setAnalista(this);
-
-        return constancia;
-    }
-
-    public Constancia removeConstancia(Constancia constancia) {
-        getConstancias().remove(constancia);
-        constancia.setAnalista(null);
-
-        return constancia;
     }
 
 }
