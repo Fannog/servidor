@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @RequiredArgsConstructor
@@ -39,20 +40,6 @@ public class EstadoUsuario implements Serializable {
     private String nombre;
 
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Usuario> usuarios;
-
-    public Usuario addUsuario(Usuario usuario) {
-        getUsuarios().add(usuario);
-        usuario.setEstado(this);
-
-        return usuario;
-    }
-
-    public Usuario removeUsuario(Usuario usuario) {
-        getUsuarios().remove(usuario);
-        usuario.setEstado(null);
-
-        return usuario;
-    }
-
 }

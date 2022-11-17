@@ -42,19 +42,4 @@ public class EstadoSolicitud implements Serializable {
 
     @Column(nullable = false, precision = 1, columnDefinition = "NUMBER(1, 0) DEFAULT 0")
     private boolean eliminado;
-
-    public Solicitud addSolicitud(Solicitud solicitud) {
-        getSolicitudes().add(solicitud);
-        solicitud.setEstado(this);
-
-        return solicitud;
-    }
-
-    public Solicitud removeSolicitud(Solicitud solicitud) {
-        getSolicitudes().remove(solicitud);
-        solicitud.setEstado(null);
-
-        return solicitud;
-    }
-
 }

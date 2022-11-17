@@ -40,19 +40,4 @@ public class EstadoJustificacion implements Serializable {
 
     @OneToMany(mappedBy = "estadosJustificacion")
     private List<Justificacion> justificacions;
-
-    public Justificacion addJustificacion(Justificacion justificacion) {
-        getJustificacions().add(justificacion);
-        justificacion.setEstadosJustificacion(this);
-
-        return justificacion;
-    }
-
-    public Justificacion removeJustificacion(Justificacion justificacion) {
-        getJustificacions().remove(justificacion);
-        justificacion.setEstadosJustificacion(null);
-
-        return justificacion;
-    }
-
 }

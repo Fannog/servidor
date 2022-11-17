@@ -31,23 +31,13 @@ public class Estudiante extends Usuario implements Serializable {
     @ToString.Exclude
     private List<Solicitud> solicitudes;
 
+    @OneToMany(mappedBy = "estudiante")
+    @ToString.Exclude
+    private List<Reclamo> reclamos;
+
     public Estudiante(Integer generacion, String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Itr itr) {
         super(apellidos, documento, email, nombres, telefono, password, estado, localidad, itr);
         this.generacion = generacion;
-    }
-
-    public Solicitud addSolicitud(Solicitud solicitud) {
-        getSolicitudes().add(solicitud);
-        solicitud.setEstudiante(this);
-
-        return solicitud;
-    }
-
-    public Solicitud removeSolicitud(Solicitud solicitud) {
-        getSolicitudes().remove(solicitud);
-        solicitud.setEstudiante(null);
-
-        return solicitud;
     }
 
 }

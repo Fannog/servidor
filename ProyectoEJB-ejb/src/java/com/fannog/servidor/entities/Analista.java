@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -25,36 +26,11 @@ public class Analista extends Usuario implements Serializable {
     @OneToMany(mappedBy = "analista")
     private List<AccionSolicitud> accionesSolicitud;
 
+    @OneToMany(mappedBy = "analista")
+    @ToString.Exclude
+    private List<AccionReclamo> accionesReclamo;
+
     public Analista(String apellidos, String documento, String email, String nombres, Integer telefono, String password, EstadoUsuario estado, Localidad localidad, Itr itr) {
         super(apellidos, documento, email, nombres, telefono, password, estado, localidad, itr);
     }
-
-    public AccionJustificacion addAccionJustificacion(AccionJustificacion accionJustificacion) {
-        getAccionesJustificacion().add(accionJustificacion);
-        accionJustificacion.setAnalista(this);
-
-        return accionJustificacion;
-    }
-
-    public AccionJustificacion removeAccionJustificacion(AccionJustificacion accionJustificacion) {
-        getAccionesJustificacion().remove(accionJustificacion);
-        accionJustificacion.setAnalista(null);
-
-        return accionJustificacion;
-    }
-
-    public AccionSolicitud addAccion(AccionSolicitud accion) {
-        getAccionesSolicitud().add(accion);
-        accion.setAnalista(this);
-
-        return accion;
-    }
-
-    public AccionSolicitud removeAccion(AccionSolicitud accion) {
-        getAccionesSolicitud().remove(accion);
-        accion.setAnalista(null);
-
-        return accion;
-    }
-
 }
